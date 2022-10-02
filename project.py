@@ -8,7 +8,45 @@ class Obj:
 
         self.data = None
         self.properties = None
-        self.grids = None
+        self.grids = {}
+
+    # Method - Obj - Show Data
+    def showData(self):
+        # Get Table from Data Tab
+        table = self.mainWindow.dataTab.table
+        data = self.data
+
+        # Change Grid Size
+        nRow = table.GetNumberRows()
+        table.DeleteRows(0, nRow)
+        table.AppendRows(len(data))
+
+        # Set Cells Value
+        row = 0
+        for key, column in data.items():
+            for col in range(5):
+                value = str(column[col])
+                table.SetCellValue(row, col, value)
+
+            # Increase Row
+            row += 1
+
+    # Method - Obj - Save Database
+    def saveDatabase(self, filePath):
+        # Compile Data
+        batch = {}
+        batch["properties"] = self.properties
+        batch["data"] = self.data
+        batch["grids"] = self.grids
+
+        batch = str(batch)
+        nChar = len(batch)
+
+        # Write File
+        file = open(filePath, "w")
+        file.write(str(nChar) + "\n")
+        file.write(batch)
+        file.close()
 
 class New:
     def __init__(self, main):
@@ -51,7 +89,7 @@ class New:
         text.SetLabel("Save to")
         text.SetPosition((20, 53))
 
-        defPath = os.getcwd()
+        defPath = os.getcwd() + "\database.rdb"
         self.saveForm = wx.TextCtrl(panel, -1, defPath)
         self.saveForm.SetSize(200, -1)
         self.saveForm.SetPosition((100, 50))
@@ -96,9 +134,15 @@ class New:
                 for i in range(n_data)}
 
         # Properties
-        # properties = {"name": self.nameForm.GetText}
+        properties = {"name": self.nameForm.GetValue()}
 
         # Create Project Object
         project = Obj(self.mainWindow)
         project.data = data
         project.properties = properties
+
+        # Show Loaded Data
+        project.showData()
+
+        # Save Database File
+        project.saveDatabase(self.saveForm.GetValue())

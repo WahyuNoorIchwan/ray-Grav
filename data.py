@@ -12,7 +12,7 @@ class Tab(wx.Panel):
         # Create Table
         self.table = Table(self)
         self.table.setup(self)
-        self.layout.Add(self.table, 1)
+        self.layout.Add(self.table, 1, wx.EXPAND)
 
 # Class - Table - to Show Data
 class Table(grid.Grid):

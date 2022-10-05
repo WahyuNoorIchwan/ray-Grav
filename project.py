@@ -31,6 +31,12 @@ class Obj:
             # Increase Row
             row += 1
 
+    # Method - Obj - Append Data
+    def appendData(self, batch):
+        self.data = batch["data"]
+        self.properties = batch["properties"]
+        self.grid = batch["grids"]
+
     # Method - Obj - Save Database
     def saveDatabase(self, filePath):
         # Compile Data
@@ -136,13 +142,68 @@ class New:
         # Properties
         properties = {"name": self.nameForm.GetValue()}
 
-        # Create Project Object
+        # Prepare Project and Data
+        batch = {"data": data, "properties": properties,
+                 "grids": grid}
+
         project = Obj(self.mainWindow)
-        project.data = data
-        project.properties = properties
-
-        # Show Loaded Data
+        project.appendData(batch)
         project.showData()
-
-        # Save Database File
         project.saveDatabase(self.saveForm.GetValue())
+
+        # Store Project on Main Window
+        self.mainWindow.project = project
+
+# Class - Open Project
+class Open:
+    def __init__(self, main):
+        self.mainWindow = main
+
+        # Open and Confirm Data
+        stats = self.readData()
+
+        if stats:
+            project = Obj(self.mainWindow)
+            project.appendData(self.batch)
+            project.showData()
+            self.mainWindow.project = project
+
+    # Method Open - Read and Validate Data
+    def readData(self):
+        filePath = "database.rdb"
+
+        # Open Data
+        file = open(filePath, "r")
+        database = file.readlines()
+        file.close()
+
+        # Validate Data
+        nChar = int(database[0])
+
+        if len(database[1]) != nChar:
+            stats = False
+        else:
+            # Try to Convert Data
+            try:
+                self.batch = eval(database[1])
+            except:
+                stats = False
+            else:
+                stats = True
+
+        # Return Status
+        return stats
+
+# Class - Close - to Close Project
+class Close:
+    def __init__(self, main):
+        self.mainWindow = main
+        self.emptyTable()
+        self.mainWindow.project = None
+
+    # Method Close - Empty Table
+    def emptyTable(self):
+        table = self.mainWindow.dataTab.table
+        nRow = table.GetNumberRows()
+        table.DeleteRows(0, nRow)
+        table.AppendRows(5)

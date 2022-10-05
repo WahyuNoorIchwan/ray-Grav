@@ -4,6 +4,7 @@ import wx, data, visualization, project
 class MainWindow(wx.Frame):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.project = None
 
         # Screen Size - Depend on Laptop
         display = wx.Display(0)
@@ -68,8 +69,30 @@ class menuBar(wx.MenuBar):
         # File Menu - Open Project
         self.open = self.file.Append(-1, "Open Project")
 
-        func = lambda event: print(text)
+        func = lambda event: project.Open(self.mainWindow)
         self.mainWindow.Bind(wx.EVT_MENU, func, self.open)
+
+        self.file.AppendSeparator()
+
+        # File Menu - Save Project
+        self.save = self.file.Append(-1, "Save Project")
+
+        func = lambda event: None
+        self.mainWindow.Bind(wx.EVT_MENU, func, self.save)
+
+        # File Menu - Close Project
+        self.close_p = self.file.Append(-1, "Close Project")
+
+        func = lambda event: project.Close(self.mainWindow)
+        self.mainWindow.Bind(wx.EVT_MENU, func, self.close_p)
+
+        self.file.AppendSeparator()
+
+        # File Menu - Close Program
+        self.close = self.file.Append(-1, "Close")
+
+        func = lambda event: None
+        self.mainWindow.Bind(wx.EVT_MENU, func, self.close)
 
         # Edit Menu
         self.edit = wx.Menu()

@@ -9,10 +9,22 @@ class Tab(wx.Panel):
         self.layout = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(self.layout)
 
+        # Visualize Button
+        self.viz_butt = wx.Button(self)
+        self.viz_butt.SetLabel("Visualize")
+        self.viz_butt.SetSize(150, -1)
+
+        self.layout.Add(self.viz_butt, 0.2, wx.ALIGN_RIGHT)
+        self.viz_butt.Bind(wx.EVT_BUTTON, self.visualize)
+
         # Create Table
         self.table = Table(self)
         self.table.setup(self)
-        self.layout.Add(self.table, 1, wx.EXPAND)
+        self.layout.Add(self.table, 0.7, wx.EXPAND)
+
+    # Method Tab - Visualize - Visualize CBA data
+    def visualize(self, event):
+        None
 
 # Class - Table - to Show Data
 class Table(grid.Grid):

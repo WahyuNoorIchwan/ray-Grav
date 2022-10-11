@@ -1,9 +1,13 @@
-import wx
+import wx, calculations
 import wx.grid as grid
+import numpy as np
 
 class Tab(wx.Panel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+    def setup(self, mainWindow):
+        self.mainWindow = mainWindow
 
         # Set Layout
         self.layout = wx.BoxSizer(wx.VERTICAL)
@@ -20,11 +24,17 @@ class Tab(wx.Panel):
         # Create Table
         self.table = Table(self)
         self.table.setup(self)
-        self.layout.Add(self.table, 0.7, wx.EXPAND)
+        self.layout.Add(self.table, 0.8, wx.EXPAND)
 
     # Method Tab - Visualize - Visualize CBA data
     def visualize(self, event):
-        None
+        # Gridding - Prepare Data
+        data = self.mainWindow.project.data
+        data = [value for value in data.values()]
+        data = np.array(data)
+
+        grid = calculations.gridding(self.mainWindow, data)
+        grid.parametersDialog()
 
 # Class - Table - to Show Data
 class Table(grid.Grid):

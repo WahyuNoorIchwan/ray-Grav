@@ -31,6 +31,7 @@ class MainWindow(wx.Frame):
         self.mainLayout.Add(container, 25)
 
         self.dataTab = data.Tab(container)
+        self.dataTab.setup(self)
         container.AddPage(self.dataTab, "Processing")
 
         self.visTab = visualization.Tab(container)

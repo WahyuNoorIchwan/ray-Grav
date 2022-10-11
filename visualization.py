@@ -29,6 +29,12 @@ class Tab(wx.Panel):
         self.renderer.SetBackground(255, 255, 255)
         self.vtkWidget.GetRenderWindow().AddRenderer(self.renderer)
 
+        # Interactor Style - set to 2D
+        self.iren = self.vtkWidget.GetRenderWindow().GetInteractor()
+        self.iren.SetInteractorStyle(vtk.vtkInteractorStyleImage())
+
+        self.renderer.ResetCamera()
+
 # Class - VTK Widget
 class vtkWidget(wxVTKRenderWindowInteractor):
     def __init__(self, *args, **kwargs):

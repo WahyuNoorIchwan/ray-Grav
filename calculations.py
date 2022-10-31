@@ -7,6 +7,14 @@ class gridding:
         self.mainWindow = mainWindow
         self.data = data
 
+    # Method Gridding - Calculate Grid Size
+    def cal_grid_size(self):
+        # Data range
+        xrange = max(self.data[:, 0]) - min(self.data[:, 0])
+        yrange = max(self.data[:, 1]) - min(self.data[:, 0])
+
+        d = max(xrange/100, yrange/100)
+
     # Method Gridding - Parameters Dialog
     def parametersDialog(self):
         dialog = wx.Dialog(self.mainWindow)

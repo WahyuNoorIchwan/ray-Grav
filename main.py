@@ -26,17 +26,17 @@ class MainWindow(wx.Frame):
         self.menuBar.setup(self)
         self.SetMenuBar(self.menuBar)
 
-        # Tabs
-        container = wx.Notebook(self.mainWidget)
-        self.mainLayout.Add(container, 25)
+        # Tabs - to Create Tab
+        # container = wx.Notebook(self.mainWidget)
+        # self.mainLayout.Add(container, 25)
 
-        self.dataTab = data.Tab(container)
-        self.dataTab.setup(self)
-        container.AddPage(self.dataTab, "Processing")
+        # self.dataTab = data.Tab(container)
+        # self.dataTab.setup(self)
+        # container.AddPage(self.dataTab, "Processing")
 
-        self.visTab = visualization.Tab(container)
+        self.visTab = visualization.Tab(self.mainWidget)
         self.visTab.setup(self)
-        container.AddPage(self.visTab, "Visualization")
+        self.mainLayout.Add(self.visTab, 30, wx.EXPAND)
 
         # Footer
         self.footer = Footer(self.mainWidget)
@@ -98,6 +98,10 @@ class menuBar(wx.MenuBar):
         # Edit Menu
         self.edit = wx.Menu()
         self.Append(self.edit, "&Edit")
+
+        # Grid Menu
+        self.grid = wx.Menu()
+        self.Append(self.grid, "&Grid")
 
         # Filter Menu
         self.filter = wx.Menu()

@@ -33,7 +33,6 @@ class Obj:
 
     # Method - Obj - Append Data
     def appendData(self, batch):
-        self.data = batch["data"]
         self.properties = batch["properties"]
         self.grid = batch["grids"]
 
@@ -42,7 +41,6 @@ class Obj:
         # Compile Data
         batch = {}
         batch["properties"] = self.properties
-        batch["data"] = self.data
         batch["grids"] = self.grids
 
         batch = str(batch)
@@ -61,14 +59,14 @@ class New:
         # Get File Path
         self.filePath = self.getFilePath()
         if self.filePath != "":
-            self.newDialog()
+            self.createProject()
 
     # Method New - Get File Path
     def getFilePath(self):
         title = "Open Gravity Data"
-        wildcard = "Excel files (*.xlsx)|*.xlsx"
+        wildcard = "Ray Database (*.rdb)|*.rdb"
         filepath = wx.FileDialog(self.mainWindow, title, wildcard=wildcard,
-                                 style=wx.FD_OPEN)
+                                 style=wx.FD_SAVE)
         filepath.ShowModal()
         return filepath.GetPath()
 
@@ -130,29 +128,25 @@ class New:
             self.saveForm.SetLabel(newPath)
 
     # Method New - Create Project
-    def createProject(self, event):
-        # Create Data - Open Data to Numpy
-        data = pd.read_excel(self.filePath).to_numpy()
-
-        # Create Data - Convert to Dictionary
-        n_data = len(data)
-        data = {str(i).zfill(5): list(data[i, :])
-                for i in range(n_data)}
+    def createProject(self):
+        # Get Project Name
+        name = self.filePath.split()[-1]
+        name = name.split(".")[0]
 
         # Properties
-        properties = {"name": self.nameForm.GetValue()}
+        properties = {"name": name}
 
         # Prepare Project and Data
-        batch = {"data": data, "properties": properties,
-                 "grids": grid}
+        batch = {"properties": properties,
+                 "grids": {}}
 
         project = Obj(self.mainWindow)
         project.appendData(batch)
-        project.showData()
-        project.saveDatabase(self.saveForm.GetValue())
+        project.saveDatabase(self.filePath)
 
         # Store Project on Main Window
         self.mainWindow.project = project
+        self.mainWindow.filePath = self.filePath
 
 # Class - Open Project
 class Open:

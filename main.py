@@ -69,7 +69,6 @@ class menuBar(wx.MenuBar):
 
         # File Menu - Open Project
         self.open = self.file.Append(-1, "Open Project")
-
         func = lambda event: project.Open(self.mainWindow)
         self.mainWindow.Bind(wx.EVT_MENU, func, self.open)
 
@@ -83,7 +82,6 @@ class menuBar(wx.MenuBar):
 
         # File Menu - Close Project
         self.close_p = self.file.Append(-1, "Close Project")
-
         func = lambda event: project.Close(self.mainWindow)
         self.mainWindow.Bind(wx.EVT_MENU, func, self.close_p)
 
@@ -102,6 +100,14 @@ class menuBar(wx.MenuBar):
         # Grid Menu
         self.grid = wx.Menu()
         self.Append(self.grid, "&Grid")
+
+        # Grid Menu - Create Grid
+        txt = "Create Grid"
+        self.createGrid = self.grid.Append(-1, txt)
+
+        # Grid Menu - Import Grid
+        txt = "Import Grid"
+        self.importGrid = self.grid.Append(-1, txt)
 
         # Filter Menu
         self.filter = wx.Menu()

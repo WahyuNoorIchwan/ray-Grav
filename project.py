@@ -63,7 +63,7 @@ class New:
 
     # Method New - Get File Path
     def getFilePath(self):
-        title = "Open Gravity Data"
+        title = "Save New Project As"
         wildcard = "Ray Database (*.rdb)|*.rdb"
         filepath = wx.FileDialog(self.mainWindow, title, wildcard=wildcard,
                                  style=wx.FD_SAVE)
@@ -131,7 +131,8 @@ class New:
     def createProject(self):
         # Get Project Name
         name = self.filePath.split()[-1]
-        name = name.split(".")[0]
+        name = name.replace('\\', '/')
+        name = name.split("/")[-1]
 
         # Properties
         properties = {"name": name}
@@ -147,6 +148,10 @@ class New:
         # Store Project on Main Window
         self.mainWindow.project = project
         self.mainWindow.filePath = self.filePath
+
+        # Set Main Window Title
+        title = "Ray-Grav - {}".format(name)
+        self.mainWindow.SetTitle(title)
 
 # Class - Open Project
 class Open:

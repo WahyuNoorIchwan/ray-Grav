@@ -9,6 +9,9 @@ class Tab(wx.Panel):
         self.layout = wx.BoxSizer(wx.HORIZONTAL)
         self.SetSizer(self.layout)
 
+        # Attributes
+        self.objects = {}
+
     def setup(self, mainWindow):
         self.mainWindow = mainWindow
 

@@ -1,4 +1,4 @@
-import wx, data, visualization, project
+import wx, data, visualization, project, calculations
 
 # Main Window Class
 class MainWindow(wx.Frame):
@@ -104,6 +104,8 @@ class menuBar(wx.MenuBar):
         # Grid Menu - Create Grid
         txt = "Create Grid"
         self.createGrid = self.grid.Append(-1, txt)
+        func = lambda event: calculations.gridding(self.mainWindow)
+        self.mainWindow.Bind(wx.EVT_MENU, func, self.createGrid)
 
         # Grid Menu - Import Grid
         txt = "Import Grid"

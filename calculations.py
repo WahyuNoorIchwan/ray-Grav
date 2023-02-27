@@ -3,9 +3,18 @@ import wx
 
 # Class - Gridding
 class gridding:
-    def __init__(self, mainWindow, data):
+    def __init__(self, mainWindow):
         self.mainWindow = mainWindow
-        self.data = data
+        self.open_filepath()
+
+    # Method Gridding - Open File Dialog
+    def open_filepath(self):
+        title = "Open File"
+        wildcard = "Excel File (*.xlsx)|*.xlsx"
+        filepath = wx.FileDialog(self.mainWindow, title, wildcard=wildcard,
+                                 style=wx.FD_OPEN)
+        filepath.ShowModal()
+        self.filepath = filepath.GetPath()
 
     # Method Gridding - Calculate Grid Size
     def cal_grid_size(self):
